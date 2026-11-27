@@ -21,6 +21,20 @@ const CONSULTAS = [
 
 const RELEVANTE = /pobreza|mesa de equidad|milagro social|prosperidad social|desigualdad|renta ciudadana|asistencialismo/i;
 
+// Solo Colombia: medios colombianos, dominios .co o títulos que hablen de Colombia
+const MEDIOS_CO = /el tiempo|el espectador|semana|portafolio|la rep[uú]blica|el colombiano|el heraldo|el universal|el pa[ií]s cali|caracol|rcn|la fm|blu radio|w radio|valora|cambio|pulzo|kienyke|las2orillas|minuto30|minuto60|telemedell[ií]n|teleantioquia|teleca[rr]ibe|publimetro colombia|el nuevo siglo|vanguardia liberal|la opini[oó]n.*c[uú]cuta|el meridiano|chica ?noticias|hoy diario del magdalena|colombia\.com|presidencia|prosperidad social|dane|dnp|la silla vac[ií]a|la patria|el informador.*santa marta|el nuevo d[ií]a \(colombia\)|diario del sur|bogota\.gov|alcald[ií]a de medell[ií]n|gobernaci[oó]n de antioquia|canal campotv|agroverdad|revistametro|ifm ?noticias|hsb noticias|estrella digital colombia|bloomberg l[ií]nea colombia|infobae colombia|ayudas 10|mi bolsillo|el resaltador|la cheverona|zona cero|semana rural|contexto ganadero|el pilón|diario del huila|la naci[oó]n neiva|q'?hubo|digame|diario del cauca|enfoque teve|el olfato|alerta (bogot|caribe|paisa)|tropicana|la voz de yopal|el diario \(pereira\)/i;
+const TITULO_CO = /colombia|colombian|\bdane\b|prosperidad social|renta ciudadana|mesa de equidad|milagro social|de la espriella|antioquia|bogot[aá]|medell[ií]n|caucasia|bajo cauca|ibagu[eé]|pereira|manizales|armenia\b|villavicencio|neiva|pasto\b|popay[aá]n|quibd[oó]|riohacha|valledupar|sincelejo|sucre|chocó|choc[oó]|la guajira|barranquilla|cartagena|monter[ií]a|cali\b|bucaramanga|c[uú]cuta|santa marta|magdalena|cesar|bol[ií]var|nari[nñ]o|cauca\b|huila|tolima|boyac[aá]|cundinamarca|santander|meta\b|caquet[aá]|putumayo|amazonas|urab[aá]/i;
+const NO_CO = /argentin|m[eé]xic|per[uú]\b|chile|venezuel|ecuador|espa[nñ]a|vietnam|honduras|guatemala|panam[aá]|el papa|rep[uú]blica dominicana|puerto rico|\.ar\b|\.mx\b|\.pe\b|\.cl\b|\.es\b/i;
+function esColombia(it) {
+  let host = '';
+  try { host = new URL(it.url).hostname; } catch {}
+  const txt = `${it.titulo} ${it.fuente}`;
+  if (NO_CO.test(txt) || NO_CO.test(host)) return false;
+  if (/\.co$|\.gov\.co$|\.com\.co$|\.org\.co$|\.edu\.co$/.test(host)) return true;
+  if (/\/colombia\//i.test(it.url)) return true;
+  return MEDIOS_CO.test(it.fuente) || TITULO_CO.test(it.titulo);
+}
+
 function limpiar(t = '') {
   return t
     .replace(/<!\[CDATA\[|\]\]>/g, '')
@@ -102,7 +116,7 @@ async function main() {
   const nuevos = [];
   for (const q of CONSULTAS) {
     for (const it of await buscar(q)) {
-      if (!RELEVANTE.test(it.titulo)) continue;
+      if (!RELEVANTE.test(it.titulo) || !esColombia(it)) continue;
       const k = clave(it.titulo);
       if (mapa.has(k)) continue;
       mapa.set(k, it); nuevos.push(it);
@@ -126,6 +140,7 @@ async function main() {
   console.log('fotos nuevas:', hechos);
 
   const items = [...mapa.values()]
+    .filter(i => RELEVANTE.test(i.titulo) && esColombia(i))
     .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     .slice(0, MAX_ITEMS);
 

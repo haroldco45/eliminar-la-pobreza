@@ -3,7 +3,7 @@
 const URL_APP = 'https://eliminar-la-pobreza.netlify.app/';
 const TZ = 'America/Bogota';
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = s => String(s ?? '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{1F1E6}-\u{1F1FF}]/gu, '').replace(/\s{2,}/g, ' ').trim().replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pesos = n => '$' + Math.round(n).toLocaleString('es-CO');
 
 /* ---------- Idioma ---------- */
@@ -175,13 +175,27 @@ function parsearRSS(xml, bing) {
   }).filter(x => x.titulo && x.url);
 }
 const RX_TEMA = /pobreza|mesa de equidad|milagro social|prosperidad social|desigualdad|renta ciudadana/i;
+// Solo Colombia: medios colombianos, dominios .co o títulos que hablen de Colombia
+const MEDIOS_CO = /el tiempo|el espectador|semana|portafolio|la rep[uú]blica|el colombiano|el heraldo|el universal|el pa[ií]s cali|caracol|rcn|la fm|blu radio|w radio|valora|cambio|pulzo|kienyke|las2orillas|minuto30|minuto60|telemedell[ií]n|teleantioquia|teleca[rr]ibe|publimetro colombia|el nuevo siglo|vanguardia liberal|la opini[oó]n.*c[uú]cuta|el meridiano|chica ?noticias|hoy diario del magdalena|colombia\.com|presidencia|prosperidad social|dane|dnp|la silla vac[ií]a|la patria|el informador.*santa marta|el nuevo d[ií]a \(colombia\)|diario del sur|bogota\.gov|alcald[ií]a de medell[ií]n|gobernaci[oó]n de antioquia|canal campotv|agroverdad|revistametro|ifm ?noticias|hsb noticias|estrella digital colombia|bloomberg l[ií]nea colombia|infobae colombia|ayudas 10|mi bolsillo|el resaltador|la cheverona|zona cero|semana rural|contexto ganadero|el pilón|diario del huila|la naci[oó]n neiva|q'?hubo|digame|diario del cauca|enfoque teve|el olfato|alerta (bogot|caribe|paisa)|tropicana|la voz de yopal|el diario \(pereira\)/i;
+const TITULO_CO = /colombia|colombian|\bdane\b|prosperidad social|renta ciudadana|mesa de equidad|milagro social|de la espriella|antioquia|bogot[aá]|medell[ií]n|caucasia|bajo cauca|ibagu[eé]|pereira|manizales|armenia\b|villavicencio|neiva|pasto\b|popay[aá]n|quibd[oó]|riohacha|valledupar|sincelejo|sucre|chocó|choc[oó]|la guajira|barranquilla|cartagena|monter[ií]a|cali\b|bucaramanga|c[uú]cuta|santa marta|magdalena|cesar|bol[ií]var|nari[nñ]o|cauca\b|huila|tolima|boyac[aá]|cundinamarca|santander|meta\b|caquet[aá]|putumayo|amazonas|urab[aá]/i;
+const NO_CO = /argentin|m[eé]xic|per[uú]\b|chile|venezuel|ecuador|espa[nñ]a|vietnam|honduras|guatemala|panam[aá]|el papa|rep[uú]blica dominicana|puerto rico|\.ar\b|\.mx\b|\.pe\b|\.cl\b|\.es\b/i;
+function esColombia(it) {
+  let host = '';
+  try { host = new URL(it.url).hostname; } catch {}
+  const txt = `${it.titulo} ${it.fuente}`;
+  if (NO_CO.test(txt) || NO_CO.test(host)) return false;
+  if (/\.co$|\.gov\.co$|\.com\.co$|\.org\.co$|\.edu\.co$/.test(host)) return true;
+  if (/\/colombia\//i.test(it.url)) return true;
+  return MEDIOS_CO.test(it.fuente) || TITULO_CO.test(it.titulo);
+}
+
 async function buscarEnVivo(q) {
-  const qq = q ? (RX_TEMA.test(q) ? q : `pobreza ${q}`) : '"Mesa de Equidad" OR "Milagro Social" OR "pobreza monetaria"';
+  const qq = q ? (RX_TEMA.test(q) ? `${q} Colombia` : `pobreza ${q} Colombia`) : '"Mesa de Equidad" OR "Milagro Social" OR "pobreza monetaria"';
   const g = `https://news.google.com/rss/search?q=${encodeURIComponent(qq + ' when:7d')}&hl=es-419&gl=CO&ceid=CO:es-419`;
   const b = `https://www.bing.com/news/search?q=${encodeURIComponent(q ? qq : 'Mesa de Equidad pobreza')}&format=rss&setlang=es-CO&cc=CO&qft=sortbydate%3d%221%22`;
   const res = await Promise.allSettled([traerProxy(g).then(x => parsearRSS(x, false)), traerProxy(b).then(x => parsearRSS(x, true))]);
   const out = res.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-  return q ? out : out.filter(x => RX_TEMA.test(x.titulo));
+  return out.filter(x => esColombia(x) && (q || RX_TEMA.test(x.titulo)));
 }
 const claveT = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, '').slice(0, 80);
 function mezclar(...listas) {

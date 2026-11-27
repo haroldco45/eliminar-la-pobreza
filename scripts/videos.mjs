@@ -4,7 +4,9 @@ import { readFile, writeFile } from 'node:fs/promises';
 const ARCHIVO = 'data/videos.json';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36';
 const CONSULTAS = ['Mesa de Equidad Milagro Social', 'De la Espriella pobreza 2030', 'pobreza monetaria Colombia DANE', 'Mesa de Equidad Prosperidad Social'];
-const RELEVANTE = /pobreza|equidad|milagro social|prosperidad social/i;
+const RELEVANTE = /pobreza|equidad|milagro social|prosperidad social|renta ciudadana|sisb[eé]n/i;
+// Solo Colombia y el tema: tiene que nombrar al Gobierno, la Mesa o Colombia
+const COLOMBIA = /colombia|colombian|espriella|abelardo|mesa de equidad|milagro social|prosperidad social|\bdane\b|renta ciudadana|sisb[eé]n|el tiempo|caracol|rcn|semana|blu radio|la fm|noticias uno|cambio|telemedell|teleantioquia|canal 1/i;
 
 function buscarRenderers(nodo, out) {
   if (!nodo || typeof nodo !== 'object') return;
@@ -24,8 +26,9 @@ async function main() {
       if (!m) { console.log('sin ytInitialData', q); continue; }
       const lista = []; buscarRenderers(JSON.parse(m[1]), lista);
       for (const v of lista) {
-        const titulo = v.title?.runs?.map(x => x.text).join('') || '';
-        if (!v.videoId || !RELEVANTE.test(titulo)) continue;
+        const titulo = (v.title?.runs?.map(x => x.text).join('') || '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+        const canal = v.ownerText?.runs?.[0]?.text || '';
+        if (!v.videoId || !RELEVANTE.test(titulo) || !COLOMBIA.test(`${titulo} ${canal}`)) continue;
         const hace = v.publishedTimeText?.simpleText || '';
         if (/año|year|(\d+)\s*mes/i.test(hace) && !/1 mes|1 month/i.test(hace)) continue;
         if (!mapa.has(v.videoId)) mapa.set(v.videoId, {
@@ -37,7 +40,7 @@ async function main() {
       }
     } catch (e) { console.log('fallo', q, e.message); }
   }
-  const items = [...mapa.values()].sort((a, b) => new Date(b.visto) - new Date(a.visto)).slice(0, 30);
+  const items = [...mapa.values()].filter(v => RELEVANTE.test(v.titulo) && COLOMBIA.test(`${v.titulo} ${v.canal}`)).sort((a, b) => new Date(b.visto) - new Date(a.visto)).slice(0, 30);
   await writeFile(ARCHIVO, JSON.stringify({ actualizado: new Date().toISOString(), items }, null, 1));
   console.log('videos:', items.length);
 }
