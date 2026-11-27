@@ -30,7 +30,6 @@ async function main() {
         const canal = v.ownerText?.runs?.[0]?.text || '';
         if (!v.videoId || !RELEVANTE.test(titulo) || !COLOMBIA.test(`${titulo} ${canal}`)) continue;
         const hace = v.publishedTimeText?.simpleText || '';
-        if (/año|year|(\d+)\s*mes/i.test(hace) && !/1 mes|1 month/i.test(hace)) continue;
         if (!mapa.has(v.videoId)) mapa.set(v.videoId, {
           id: v.videoId, titulo,
           canal: v.ownerText?.runs?.[0]?.text || '',
@@ -41,7 +40,12 @@ async function main() {
     } catch (e) { console.log('fallo', q, e.message); }
   }
   const VIEJO = /\b(19|20[01]\d|202[0-4])\b/;           // títulos con años viejos
-  const RECIENTE = h => h && !/año|year/i.test(h);        // menos de un año
+  // Recientes: horas, días, semanas o hasta 6 meses ("hace 2 a" = años, "hace 5 m" = meses)
+  const RECIENTE = h => {
+    if (!h || /\b\d+\s*(a|años?|years?)\b/i.test(h)) return false;
+    const m = h.match(/(\d+)\s*(m|mes|meses|months?)\b/i);
+    return !m || +m[1] <= 6;
+  };
   const PRIORIDAD = /mesa de equidad|milagro social|espriella|abelardo|3,6 millones/i;
   const items = [...mapa.values()]
     .filter(v => RELEVANTE.test(v.titulo) && COLOMBIA.test(`${v.titulo} ${v.canal}`) && !VIEJO.test(v.titulo) && RECIENTE(v.hace))
