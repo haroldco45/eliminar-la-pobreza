@@ -1,0 +1,51 @@
+{
+ "corte": "27 de noviembre de 2026, 5:30 a. m. hora Colombia",
+ "meta": { "inicio_pct": 28.0, "meta_pct": 20.0, "personas_m": 3.6, "anio": 2030, "pobres_hoy_m": 14.4, "extrema_pct": 9.6, "extrema_m": 5.0 },
+ "lineas_2025": { "pobreza_persona": 482041, "pobreza_hogar4": 1928164, "extrema_persona": 236580, "extrema_hogar4": 946320, "vulnerable_hasta": 943791 },
+ "serie": [
+  { "anio": 2018, "pct": 34.7 }, { "anio": 2019, "pct": 35.7 }, { "anio": 2020, "pct": 42.5 },
+  { "anio": 2021, "pct": 39.3 }, { "anio": 2022, "pct": 36.6 }, { "anio": 2023, "pct": 33.0 },
+  { "anio": 2024, "pct": 31.8 }, { "anio": 2025, "pct": 28.0 }
+ ],
+ "datos": [
+  { "num": "28 %", "es": "pobreza monetaria nacional en 2025 (31,8 % en 2024)", "en": "national monetary poverty in 2025 (31.8% in 2024)", "fuente": "DANE, junio 2026" },
+  { "num": "14,4 M", "es": "personas en pobreza monetaria", "en": "people in monetary poverty", "fuente": "DANE, junio 2026" },
+  { "num": "9,6 %", "es": "pobreza extrema, casi 5 millones de personas", "en": "extreme poverty, almost 5 million people", "fuente": "DANE, junio 2026" },
+  { "num": "39,5 %", "es": "pobreza en el campo, contra 24,6 % en las cabeceras", "en": "rural poverty, versus 24.6% in towns and cities", "fuente": "DANE, junio 2026" },
+  { "num": "0,531", "es": "Gini (desigualdad del ingreso), desde 0,551", "en": "Gini (income inequality), down from 0.551", "fuente": "DANE, junio 2026" },
+  { "num": "1,79 M", "es": "personas salieron de la pobreza monetaria entre 2024 y 2025", "en": "people left monetary poverty between 2024 and 2025", "fuente": "DANE, junio 2026" }
+ ],
+ "departamentos": [
+  { "n": "Chocó", "pct": 65.3 }, { "n": "La Guajira", "pct": 60.2 }, { "n": "Sucre", "pct": 51.8, "nuestro": true },
+  { "n": "Magdalena", "pct": 46.5 }, { "n": "Bolívar", "pct": 44.8 }, { "n": "Cesar", "pct": 44.4 },
+  { "n": "Córdoba", "pct": 44.0, "nuestro": true }, { "n": "Cauca", "pct": 40.9 }, { "n": "Huila", "pct": 39.8 },
+  { "n": "Caquetá", "pct": 34.9 }, { "n": "Total nacional", "pct": 28.0, "nac": true },
+  { "n": "Risaralda", "pct": 20.2 }, { "n": "Antioquia", "pct": 19.2, "nuestro": true },
+  { "n": "Bogotá D.C.", "pct": 17.8 }, { "n": "Caldas", "pct": 17.5 }, { "n": "Cundinamarca", "pct": 15.1 }
+ ],
+ "hechos": [
+  { "es": ["Qué es", "La instancia que coordinará la política social del Gobierno para bajar la pobreza. Se instaló el 26 de noviembre de 2026 en el Salón Bolívar de la Casa de Nariño."], "en": ["What it is", "The body that will coordinate the government's social policy to cut poverty. Installed on November 26, 2026, in the Bolívar Hall of the Casa de Nariño."] },
+  { "es": ["La meta", "Bajar la pobreza monetaria del 28 % al 20 % en 2030: ocho puntos, cerca de 3,6 millones de personas."], "en": ["The target", "Cut monetary poverty from 28% to 20% by 2030: eight points, about 3.6 million people."] },
+  { "es": ["Cómo dicen que lo harán", "Empleo, emprendimiento y formación para el trabajo, para que la gente viva de sus propios ingresos y no solo de subsidios."], "en": ["How they say they will do it", "Jobs, entrepreneurship and job training, so people live on their own income and not only on subsidies."] },
+  { "es": ["A quién priorizan", "Madres cabeza de hogar, adultos mayores, campesinos, jóvenes sin oportunidades, personas cuidadoras y niños en pobreza."], "en": ["Who comes first", "Female heads of household, older adults, rural workers, young people without opportunities, caregivers and children in poverty."] },
+  { "es": ["Quién responde", "No solo Prosperidad Social: cada ministro y director debe decir qué hará, dónde, con qué plata y cuándo dará resultados."], "en": ["Who is accountable", "Not only Prosperidad Social: every minister and director must say what they will do, where, with what money and when results will come."] },
+  { "es": ["Empresas y fundaciones", "El Gobierno designó al empresario Samuel \"Sammy\" Azout, exdirector de la agencia contra la pobreza extrema, como embajador ad honorem del Milagro Social para sumar a empresas, fundaciones y cooperación internacional."], "en": ["Companies and foundations", "The government named businessman Samuel \"Sammy\" Azout, former head of the extreme-poverty agency, as ad honorem ambassador of the Social Miracle to bring in companies, foundations and international cooperation."] },
+  { "es": ["No es nueva", "Ya existió una Mesa de Equidad desde julio de 2019 (gobierno Duque), con DNP y Prosperidad Social como secretaría técnica y seguimiento trimestral. Vamos a comparar."], "en": ["Not new", "A Mesa de Equidad already existed from July 2019 (Duque government), with DNP and Prosperidad Social as technical secretariat and quarterly reviews. We will compare."] }
+ ],
+ "compromisos": [
+  { "estado": "cumplido", "es": ["Instalar la Mesa de Equidad", "Instalada el 26 de noviembre de 2026."], "en": ["Install the Mesa de Equidad", "Installed on November 26, 2026."], "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-instala-la-mesa-de-equidad-y-fija-meta-de-reducir-la-pobreza-monetaria-del-28-al-20-para-3604701" },
+  { "estado": "cumplido", "es": ["Fijar una meta medible", "Del 28 % al 20 % en 2030, con dato oficial del DANE."], "en": ["Set a measurable target", "From 28% to 20% by 2030, using official DANE data."], "url": "https://www.lafm.com.co/politica/reducir-pobreza-gobierno-colombianos-abelardo-de-la-espriella-mesa-equidad-418435" },
+  { "estado": "pendiente", "es": ["Plan por ministerio: qué, dónde, con cuánto y cuándo", "El Presidente lo pidió a cada ministro y director. Aún no es público."], "en": ["Plan per ministry: what, where, how much and when", "The President asked every minister and director for it. Not public yet."] },
+  { "estado": "pendiente", "es": ["Metas por departamento y municipio", "Sin publicar. Clave para saber qué le toca a Córdoba, Sucre y el Bajo Cauca."], "en": ["Targets by department and town", "Not published. Key to know what Córdoba, Sucre and Bajo Cauca get."] },
+  { "estado": "pendiente", "es": ["Presupuesto asignado", "No se ha dicho cuánta plata respalda la meta ni de dónde sale."], "en": ["Budget assigned", "No figure yet on how much money backs the target or where it comes from."] },
+  { "estado": "pendiente", "es": ["Reglas de la Mesa: quiénes la integran y cada cuánto sesiona", "No se ha publicado el decreto o acto que la crea."], "en": ["Rules: members and how often it meets", "The decree or act creating it has not been published."] },
+  { "estado": "en-curso", "es": ["Sumar empresas y fundaciones", "Embajador ad honorem designado. Faltan los primeros acuerdos firmados."], "en": ["Bring in companies and foundations", "Ad honorem ambassador named. First signed agreements still missing."] },
+  { "estado": "pendiente", "es": ["Primer dato de pobreza bajo este gobierno", "El DANE publica la pobreza de 2026 hacia mediados de 2027."], "en": ["First poverty figure under this government", "DANE publishes 2026 poverty around mid-2027."] }
+ ],
+ "fuentes": [
+  { "t": "Presidencia: meta de 3,6 millones al 2030", "url": "https://www.presidencia.gov.co/prensa/Paginas/Que-3-6-millones-de-colombianos-superen-la-pobreza-al-2030-meta-del-Presidente-Abelardo-De-La-Espriella-20261126.aspx" },
+  { "t": "DANE: pobreza monetaria 2025", "url": "https://www.dane.gov.co/estadisticas-por-tema/pobreza-y-condiciones-de-vida/pobreza-monetaria" },
+  { "t": "DANE: pobreza monetaria departamental 2025", "url": "https://www.dane.gov.co/files/operaciones/PM/cp-PMDepartamental-2025.pdf" },
+  { "t": "Portafolio: la meta y el seguimiento", "url": "https://www.portafolio.co/economia/gobierno/de-la-espriella-fija-la-meta-de-sacar-a-3-6-millones-de-colombianos-de-la-pobreza-monetaria-antes-de-finalizar-507201" }
+ ]
+}
