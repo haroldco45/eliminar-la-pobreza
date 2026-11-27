@@ -40,7 +40,12 @@ async function main() {
       }
     } catch (e) { console.log('fallo', q, e.message); }
   }
-  const items = [...mapa.values()].filter(v => RELEVANTE.test(v.titulo) && COLOMBIA.test(`${v.titulo} ${v.canal}`)).sort((a, b) => new Date(b.visto) - new Date(a.visto)).slice(0, 30);
+  const VIEJO = /\b(19|20[01]\d|202[0-4])\b/;           // títulos con años viejos
+  const RECIENTE = h => h && !/año|year/i.test(h);        // menos de un año
+  const PRIORIDAD = /mesa de equidad|milagro social|espriella|abelardo|3,6 millones/i;
+  const items = [...mapa.values()]
+    .filter(v => RELEVANTE.test(v.titulo) && COLOMBIA.test(`${v.titulo} ${v.canal}`) && !VIEJO.test(v.titulo) && RECIENTE(v.hace))
+    .sort((a, b) => (PRIORIDAD.test(b.titulo) - PRIORIDAD.test(a.titulo)) || (new Date(b.visto) - new Date(a.visto))).slice(0, 30);
   await writeFile(ARCHIVO, JSON.stringify({ actualizado: new Date().toISOString(), items }, null, 1));
   console.log('videos:', items.length);
 }
